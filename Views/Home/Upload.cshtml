@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Upload Images";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<form method="post" enctype="multipart/form-data" asp-action="UploadImages">
+    <div class="mb-3">
+        <label class="form-label"></label>
+        <input id="photos" name="photos" type="file" class="form-control" multiple accept="image/*">
+    </div>
+    <div class="mb-3">
+        <div id="FilesToUpload"></div>
+    </div>
+</form>
+
+
+@section Scripts
+    {
+    <script>
+        var input = document.querySelector('input[type=file]');
+        input.onchange = function () {
+            var element = document.getElementById("photos");
+            var html = "";
+
+            html = "<table class=\"table\">";
+            html += "<tr><th>#</th><th>File name</th><th>File size</th></tr>";
+            for (var i = 0; i < element.files.length; i++) {
+                html += "<tr><td>" + (i + 1) + "</td>";
+                var file = element.files[i];
+                if ('name' in file) { html += "<td>" + file.name + "</td>"; }
+                if ('size' in file) { html += "<td>" + file.size + " bytes</td>"; }
+                html += "</tr>";
+            }
+            html += "<tr><td colspan=\"3\">Total files: " + element.files.length + "</td></tr>";
+            html += "<tr><td colspan=\"3\"><button class=\"btn btn-primary\" type=\"submit\">Upload Files</button></td></tr>";
+            html += "</table>";
+            document.getElementById("FilesToUpload").innerHTML = html;
+        }
+    </script>
+}
