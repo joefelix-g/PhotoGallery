@@ -4,10 +4,19 @@ using PhotoGallery.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+/*
 builder.Services.AddDbContext<PhotoGalleryDbContext>(options =>
 {
     options.UseInMemoryDatabase("PhotoGallery");
 });
+*/
+
+
+builder.Services.AddDbContext<PhotoGalleryDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection"));
+});
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(options =>
